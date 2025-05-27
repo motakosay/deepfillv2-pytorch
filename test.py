@@ -19,7 +19,7 @@ def main():
 
     args = parser.parse_args()
 
-    generator_state_dict = torch.load(args.checkpoint)['G']
+    generator_state_dict = torch.load(args.checkpoint, map_location=torch.device('cpu'))['G']
 
     if 'stage1.conv1.conv.weight' in generator_state_dict.keys():
         from model.networks import Generator
@@ -33,7 +33,7 @@ def main():
     # set up network
     generator = Generator(cnum_in=5, cnum=48, return_flow=False).to(device)
 
-    generator_state_dict = torch.load(args.checkpoint)['G']
+    generator_state_dict = torch.load(args.checkpoint, map_location=torch.device('cpu'))['G']
     generator.load_state_dict(generator_state_dict, strict=True)
 
     # load image and mask
